@@ -1,0 +1,31 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const itemSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    price: {
+        type: Number,
+        required: true,
+    },
+    quantity: {
+        type: Number,
+        default: 0,
+    },
+
+    Invoice: {
+        type: Schema.Types.ObjectId,
+        ref: 'Invoice',
+    },
+
+})
+
+
+const Item = mongoose.model('Item', invoiceSchema);
+module.exports = Item;

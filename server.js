@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const cors = require('cors');
-const app = rexperss();
+const app = express();
 const PORT = process.env.PORT || 4000;
 const routes = require('./routes');
 
@@ -30,7 +30,7 @@ app.use(session({
     saveUninitialized: false
 }));
 
-const corsOption = {
+const corsOptions = {
     origin: ['http://localhost:3000'],
     credentials: true,
     optionsSuccessStatus: 200
