@@ -11,9 +11,8 @@ const clientSchema = new Schema({
         required: true,
     },
     phone: {
-        type: Number,
+        type: String,
         required: true,
-        max: 10,
     },
     address: {
         type: String,
@@ -30,7 +29,6 @@ const clientSchema = new Schema({
     zip: {
         type: String,
         required: true,
-        max: 10,
     },
     user: {
         type: Schema.Types.ObjectId,

@@ -16,6 +16,13 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    image_url: {
+        type: String,
+        default: "https://partners.salesforce.com/resource/tdxlib/img/large-default-user.png"
+    },
+    slug: {
+        type: String,
+    },
     signup_date: {
         type: Date,
         default: Date.now,

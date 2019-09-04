@@ -5,15 +5,14 @@ const invoiceSchema = new Schema({
     invoiceNumber: {
         type: Number,
         required: true,
-        unique: true,
-    },
-    poNumber: {
-        type: Number,
-        required: true,
     },
     paymentTerms: {
         type: Number,
         required: true,
+    },
+    total: {
+        type: Number,
+        default: 0,
     },
     user: {
         type: Schema.Types.ObjectId,
@@ -22,6 +21,10 @@ const invoiceSchema = new Schema({
     client: {
         type: Schema.Types.ObjectId,
         ref: 'Client',
+    },
+    date: {
+        type: Date,
+        default: Date.now,
     },
 })
 
