@@ -18,7 +18,6 @@ const itemSchema = new Schema({
         type: Number,
         default: 0,
     },
-
     Invoice: {
         type: Schema.Types.ObjectId,
         ref: 'Invoice',
@@ -27,5 +26,5 @@ const itemSchema = new Schema({
 })
 
 
-const Item = mongoose.model('Item', invoiceSchema);
+const Item = mongoose.model('Item', itemSchema);
 module.exports = Item;
