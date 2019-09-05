@@ -31,32 +31,13 @@ module.exports = {
             })
 
     },
+
     create: (req, res) => {
-        db.Invoice.create(req.body)
-            .populate('items client user')
-            .exec((err, createdInvoice) => {
-                if (err) return res.status(400).json({
-                    status: 400,
-                    message: 'Something went wrong, Please try again'
-                });
-                res.status(200).json({
-                    status: 200,
-                    data: createdInvoice,
-                    requestedAt: new Date().toLocaleString()
-                });
-            })
-    },
-    create: (req, res) => {
-        db.Invoice.create(req.body, (err, createdInvoice) => {
-            console.log(req.body, createdInvoice)
+        const newInvoice = { user: req.session.currentUser.id, ...req.body }
+        db.Invoice.create(newInvoice, (err, createdInvoice) => {
             if (err) return res.status(400).json({
                 status: 400,
                 message: 'Something went wrong, Please try again'
-            })
-
-            // ASSOCIATE USER
-            req.body.items.forEach(item => {
-                createdInvoice.items.push(item)
             })
 
             res.status(200).json({
