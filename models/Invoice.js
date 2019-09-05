@@ -22,6 +22,12 @@ const invoiceSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Client',
     },
+    items: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Item',
+        }
+    ],
     date: {
         type: Date,
         default: Date.now,

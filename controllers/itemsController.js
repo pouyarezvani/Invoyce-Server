@@ -3,17 +3,17 @@ const db = require('../models');
 
 module.exports = {
     index: (req, res) => {
-        db.Item.find({}, (err, allItems) => {
-            if (err) return res.status(400).json({
-                status: 400,
-                message: 'Something went wrong, Please try again'
+        db.Item.find({ user: req.session.currentUser.id }, (err, foundItems) => {
+            if (err) return res.status(500).json({
+                status: 500,
+                message: 'Something went wrong. Please try again'
             });
+
             res.status(200).json({
                 status: 200,
-                data: allItems,
-                requestedAt: new Date().toLocaleString()
-            })
-        });
+                data: foundItems
+            });
+        })
     },
     show: (req, res) => {
         db.Item.findById(req.params.item_id, (err, foundItem) => {
@@ -34,10 +34,17 @@ module.exports = {
                 status: 400,
                 message: 'Something went wrong, Please try again'
             })
-            res.status(200).json({
-                status: 200,
-                data: createdItem,
-                requestedAt: new Date().toLocaleString()
+            createdItem.user = req.session.currentUser.id
+            createdItem.save((err, savedItem) => {
+                if (err) return res.status(400).json({
+                    status: 400,
+                    message: 'Something went wrong, Please try again'
+                })
+                res.status(200).json({
+                    status: 200,
+                    data: savedItem,
+                    requestedAt: new Date().toLocaleString()
+                })
             })
         });
     },

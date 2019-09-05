@@ -16,29 +16,55 @@ module.exports = {
         });
     },
     show: (req, res) => {
-        db.Invoice.findById(req.params.invoice_id, (err, foundInvoice) => {
-            if (err) return res.status(400).json({
-                status: 400,
-                message: 'Something went wrong, Please try again'
-            });
-            res.status(200).json({
-                status: 200,
-                data: foundInvoice,
-                requestedAt: new Date().toLocaleString()
-            });
-        });
+        db.Invoice.findById(req.params.invoice_id)
+            .populate('items client user')
+            .exec((err, foundInvoice) => {
+                if (err) return res.status(400).json({
+                    status: 400,
+                    message: 'Something went wrong, Please try again'
+                });
+                res.status(200).json({
+                    status: 200,
+                    data: foundInvoice,
+                    requestedAt: new Date().toLocaleString()
+                });
+            })
+
+    },
+    create: (req, res) => {
+        db.Invoice.create(req.body)
+            .populate('items client user')
+            .exec((err, createdInvoice) => {
+                if (err) return res.status(400).json({
+                    status: 400,
+                    message: 'Something went wrong, Please try again'
+                });
+                res.status(200).json({
+                    status: 200,
+                    data: createdInvoice,
+                    requestedAt: new Date().toLocaleString()
+                });
+            })
     },
     create: (req, res) => {
         db.Invoice.create(req.body, (err, createdInvoice) => {
+            console.log(req.body, createdInvoice)
             if (err) return res.status(400).json({
                 status: 400,
                 message: 'Something went wrong, Please try again'
             })
+
+            // ASSOCIATE USER
+            req.body.items.forEach(item => {
+                createdInvoice.items.push(item)
+            })
+
             res.status(200).json({
                 status: 200,
                 data: createdInvoice,
                 requestedAt: new Date().toLocaleString()
             })
+
         });
     },
     update: (req, res) => {

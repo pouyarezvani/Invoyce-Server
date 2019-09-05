@@ -18,11 +18,10 @@ const itemSchema = new Schema({
         type: Number,
         default: 1,
     },
-    Invoice: {
+    user: {
         type: Schema.Types.ObjectId,
-        ref: 'Invoice',
-    },
-
+        ref: 'User',
+    }
 })
 
 

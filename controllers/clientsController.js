@@ -3,17 +3,17 @@ const db = require('../models');
 
 module.exports = {
     index: (req, res) => {
-        db.Client.find({}, (err, allClients) => {
-            if (err) return res.status(400).json({
-                status: 400,
-                message: 'Something went wrong, Please try again'
+        db.Client.find({ user: req.session.currentUser.id }, (err, foundClients) => {
+            if (err) return res.status(500).json({
+                status: 500,
+                message: 'Something went wrong. Please try again'
             });
+
             res.status(200).json({
                 status: 200,
-                data: allClients,
-                requestedAt: new Date().toLocaleString()
-            })
-        });
+                data: foundClients
+            });
+        })
     },
     show: (req, res) => {
         db.Client.findById(req.params.client_id, (err, foundClient) => {
@@ -34,10 +34,17 @@ module.exports = {
                 status: 400,
                 message: 'Something went wrong, Please try again'
             })
-            res.status(200).json({
-                status: 200,
-                data: createdClient,
-                requestedAt: new Date().toLocaleString()
+            createdClient.user = req.session.currentUser.id
+            createdClient.save((err, savedClient) => {
+                if (err) return res.status(400).json({
+                    status: 400,
+                    message: 'Something went wrong, Please try again'
+                })
+                res.status(200).json({
+                    status: 200,
+                    data: savedClient,
+                    requestedAt: new Date().toLocaleString()
+                })
             })
         });
     },
