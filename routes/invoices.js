@@ -8,6 +8,7 @@ const authRequired = require('../middleware/authRequired');
 //Invoice Routes
 router.get('/:invoice_id', ctrl.invoices.show);
 router.get('/', ctrl.invoices.index);
+router.get('/user/:user_id', ctrl.invoices.userInvoices);
 router.put('/:invoice_id', ctrl.invoices.update);
 router.delete('/:invoice_id', ctrl.invoices.delete);
 router.post('/', ctrl.invoices.create);

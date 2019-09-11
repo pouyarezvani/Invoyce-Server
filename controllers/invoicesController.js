@@ -15,6 +15,21 @@ module.exports = {
             })
         });
     },
+    userInvoices: (req, res) => {
+        const user = req.params.user_id
+        console.log(user)
+        db.Invoice.find({ user: user }, (err, allInvoices) => {
+            if (err) return res.status(400).json({
+                status: 400,
+                message: 'Something went wrong, Please try again'
+            });
+            res.status(200).json({
+                status: 200,
+                data: allInvoices,
+                requestedAt: new Date().toLocaleString()
+            })
+        });
+    },
     show: (req, res) => {
         db.Invoice.findById(req.params.invoice_id)
             .populate('items client user')
